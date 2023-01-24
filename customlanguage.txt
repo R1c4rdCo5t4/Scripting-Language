@@ -1,16 +1,14 @@
-/*
-This is a comment ?
-*/
+# this is a comment
 
 // ---- VARIABLES ----
 set x = 1
 const pi = 3.14
 
-let y
+let y # by default its value is undefined
 y = 5
 
 
-// ---- LISTS AND ARRAYS ----
+// ---- LISTS ----
 set list = [-1, 0, 1, 2, 3]
 
 list.foreach(i => print(i))
@@ -52,7 +50,7 @@ map = list => list2 // list -> list2 for every key-value pair
 
 
 
-// ---- FUNCTIONS ---- 
+// ---- FUNCTIONS AND CONDITIONALS ---- 
 
 fn say_hello(x):
     print("hello #x") // hello world
@@ -114,6 +112,6 @@ start, *_, (last_word_first_letter, *_) = ["Hi", "How", "are", "you?"]
 print(last_word_first_letter)  # prints "y"
 
 set x,y = (1,2,3) // tuple destructuring, x = 1, y = 2
-set create_vector = (x,y) => Vector(x,y) // lambda functions
+set create_vector = (x,y) => Vector(x,y) // lambda function
 set vector2 = create_vector(x,y)
 

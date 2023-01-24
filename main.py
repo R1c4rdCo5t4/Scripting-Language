@@ -1,10 +1,10 @@
-from functions import *
+from execution import *
 
 
 exe = Execution("code.txt")
 
 while not exe.eof:
-    exe.execute()
+    exe.execute() # line by line
 
    
 
