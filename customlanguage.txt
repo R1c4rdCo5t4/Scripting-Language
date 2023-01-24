@@ -1,0 +1,119 @@
+/*
+This is a comment ?
+*/
+
+// ---- VARIABLES ----
+set x = 1
+const pi = 3.14
+
+let y
+y = 5
+
+
+// ---- LISTS AND ARRAYS ----
+set list = [-1, 0, 1, 2, 3]
+
+list.foreach(i => print(i))
+list.map(#*2) // => -2 0 2 4 6
+list.filter(# > 0) // => 1 2 3
+list.acc(elem, acc => elem + acc) // list.acc(_ + #) => 5
+
+list.pop(-1) // removes element by index
+list = myList[:-1] // list slicing
+list.append(4) // adds 4 to the end of the list
+list.remove(0) // removes all elements equal to 0
+list.clear() // []
+
+
+// ---- LOOPS ----
+
+for i from 0 to 5:
+    print(i)
+
+
+for elem in list;
+    print(elem)
+
+
+while x++ > 10:
+    print("!")
+
+
+print("\n")
+
+loop(10):
+    print("!")
+
+
+// ---- MAPS ----
+
+map = {1:'a', 2:'b'}
+map = list => list2 // list -> list2 for every key-value pair
+
+
+
+// ---- FUNCTIONS ---- 
+
+fn say_hello(x):
+    print("hello #x") // hello world
+
+
+fn print_something(x) => print(x)
+
+
+fn check_ifs(x):
+    return if (x % 2 == 0) true elsif(x == -1) false else x++ == 2
+    
+
+fn check_switch(x):
+    set x = switch(x):
+        # % 2 == 0 -> true
+        -1 -> false
+        else -> #++ == 2
+
+    return x
+
+
+int one_liner(z) => z == 0 ? -1 : z 
+
+
+// ---- LIST COMPREHENSIONS ----
+
+fn generate_list => [(1..5)*2] // [2,4,6,8,10] short map
+
+fn another_list => [(1..5) % 2 == 0] // [2,4] short filter
+
+fn cond_list => [(1..5) % 2 == 0 ? # : 0] // [0,2,0,4,0] short map with condition
+
+fn accumulate_list => [(1..5) => _ + #] // [15] short accumulate
+
+set generateMap = {(1..5):('a'..'e')} // {1:a, 2:b, 3:c, 4:d, 5:e}
+
+
+
+// ---- CLASSES ----
+
+class MyClass(int y) => ParentClass:
+    let static occurrences
+    let name
+
+    fn repr():
+        return "#y"
+     
+
+override MyClass.repr() => "|#y|"
+
+
+// ---- DESTRUCTURING AND LAMBDAS ----
+
+set x, y, z = ["a", true, 5]
+set start, *_ = [1, 4, 3, 8] // 1, [4,3,8]
+set *_, end = ["r", "g", "b"] // [r,g], b
+
+start, *_, (last_word_first_letter, *_) = ["Hi", "How", "are", "you?"]
+print(last_word_first_letter)  # prints "y"
+
+set x,y = (1,2,3) // tuple destructuring, x = 1, y = 2
+set create_vector = (x,y) => Vector(x,y) // lambda functions
+set vector2 = create_vector(x,y)
+

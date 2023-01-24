@@ -1,0 +1,14 @@
+set x = 10
+set y = 5 * 2
+print(x / y)
+print(x ^ 2)
+print("hello")
+
+set test = 1 | 0
+print(test)
+
+# 10 inclusive
+for i from 0 to 10:
+    print(i)
+
+
