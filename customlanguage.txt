@@ -115,3 +115,18 @@ set x,y = (1,2,3) // tuple destructuring, x = 1, y = 2
 set create_vector = (x,y) => Vector(x,y) // lambda function
 set vector2 = create_vector(x,y)
 
+
+
+
+
+
+fn print() => 'num: 1' 
+
+fn do_it(str, fn)
+    ret fn(str)
+
+foreach i in list
+    log(i)
+
+
+set input = in('Enter a number:')

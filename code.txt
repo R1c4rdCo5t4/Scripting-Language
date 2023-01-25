@@ -1,14 +1,17 @@
-set x = 10
-set y = 5 * 2
-print(x / y)
-print(x ^ 2)
-print("hello")
 
-set test = 1 | 0
-print(test)
+set x = 'abc'
+set num1 = 1
+set num2 = 2
+set num3 = num1 + num2
 
-# 10 inclusive
-for i from 0 to 10:
-    print(i)
+# print statements
+print('hello')
+print(num3 + 1)
+print(x)
+print(x + 'd')
+
+
+# print(num1: #num1)
+
 
 

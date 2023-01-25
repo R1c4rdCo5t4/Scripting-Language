@@ -1,7 +1,8 @@
 from execution import *
+import sys
 
-
-exe = Execution("code.txt")
+file = sys.argv[1]
+exe = Execution(file)
 
 while not exe.eof:
     exe.execute() # line by line
