@@ -1,7 +1,13 @@
 import re
 from dataclasses import dataclass, field
 from regex import Regex
+from errors import Error
 
+
+@dataclass
+class Variable:
+    value: any
+    const: bool
 
 
 @dataclass
@@ -10,7 +16,7 @@ class Execution:
     lines: list[str] = field(default_factory=list)
     pc : int = 0
     ops : str = '+-*/^'
-    vars: dict[str, str] = field(default_factory=lambda: {
+    vars: dict[str, any] = field(default_factory=lambda: {
         '/': '//',
         '^': '**'
     })
@@ -30,13 +36,17 @@ class Execution:
     
     @property
     def ignore_line(self):
-        return len(self.curr_line) == 0 or self.curr_line[0] == '#' or self.curr_line.strip() == ''
+        return self.curr_line.strip() == '' or self.curr_line[0] == '#'
     
 
+    def assign_var(self, name, value, const=False):
+        self.vars[name] = Variable(value, const)
+    
+   
     def substitute(self, match):
         var = match.group(1)
         if var in self.vars.keys():
-            val = self.vars[var]
+            val = self.vars[var].value
             return f"'{val}'" if (isinstance(val, str)) else str(val)
         
         return var
@@ -53,10 +63,16 @@ class Execution:
 
     def execute(self):
 
+        if self.curr_line.count('###') == 1: # multi-line comment
+            self.pc += 1
+            while self.curr_line.count('###') != 1 and not self.eof:
+                self.pc += 1
+        
     
-        if(self.ignore_line):
+        if self.ignore_line: # empty line or comment
             self.pc += 1
             return
+    
         
         for r in list(Regex):
             match = r.value.pattern.search(self.curr_line.strip())
@@ -64,7 +80,9 @@ class Execution:
                 if callback := r.value.callback:
                     callback(self, Regex)
                     break
-
+        else:
+            raise Error(f"invalid syntax: 'unknown instruction'")
+        
         self.pc += 1
             
 

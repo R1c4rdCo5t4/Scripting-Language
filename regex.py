@@ -11,13 +11,14 @@ class Pattern():
 
 
 class Regex(Enum):
-    SET = Pattern(re.compile(r"set\s+(\w+)"), set_)
-    LET = Pattern(re.compile(r"let\s+(\w+)"), let_)
-    ASSIGN = Pattern(re.compile(r"(\w+)\s*=\s*(\w+)"), assign_)
+    SET = Pattern(re.compile(r"^set\s+(\w+)"), set_)
+    LET = Pattern(re.compile(r"^let\s+(\w+)"), let_)
+    CONST = Pattern(re.compile(r"^const\s+(\w+)"), const_)
+    REASSIGN = Pattern(re.compile(r"^(\w+)\s*=\s*(\w+)"), reassign_)
     FUNC_ARGS = Pattern(re.compile(r"\w+((.+))"))
     EXPR = Pattern(re.compile(r"=\s*(.*)"))
     PRINT = Pattern(re.compile(r"^print(.*)"), print_)
-    FOR = Pattern(re.compile(r"for\s+(\w+)\s+from\s+([-]?\d+)\s+to\s+([-]?\d+)(\s+step\s+([-]?\d+))?"), for_)
+    FOR = Pattern(re.compile(r"^for\s+(\w+)\s+from\s+([-]?\d+)\s+to\s+([-]?\d+)(\s+step\s+([-]?\d+))?"), for_)
     
     # FOR = Pattern(re.compile(r"for\s+(.*)"), for_)
     # IF = Pattern(re.compile(r"if\s+(.*)"), if_)
@@ -32,6 +33,6 @@ class Regex(Enum):
         if match:
             return match.group(1)
 
-        raise SyntaxError()
+        raise Error('invalid syntax')
 
 

@@ -1,32 +1,42 @@
 
-set x = 'abc'
-set num1 = 1
-set num2 = 2
-set num3 = num1 + num2
 
-print(x+'d')
 
-let y
-print(y)
+set x = 2
+set y = 2
 
-y = 1
-print(y)
+const ff = 1
 
-x = 12345
+let variable
+print(variable)
+variable = x
+print(variable)
 
+set x = 2
+
+###
+val = 2
+
+print('hellooooo')
+
+print(1)
+print(x + y)
+print('hello' + ' world')
+
+let z
+
+print(z)
+
+z = 2
+x = 10
+print(z)
+
+set hhh = z + x
+print(hhh)
+
+
+
+set x = 0
 print(x)
-print(2 > 2)
 
-# print - write - in
-# input - read  - out
-
-
-for i from 0 to 10
-    print('-> ' + i)
-
-for i from 0 to 10
-    print('hello')
-    print(i)
-
-
-
+print(y)
+###

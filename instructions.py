@@ -1,49 +1,73 @@
 import re
-
+from evaluate import *
+from errors import Error
 
 reserved_keywords = {"print", "set", "let", "for", "from", "to"}
 
-def validate_var_name(var):
-    return bool(re.search(r"^[a-zA-Z_][a-zA-Z0-9_]*$", var))
 
-def assign(exe, var, expr):
-    exe.vars[var] = eval(str(expr))
+def _validate_var_name(var, vars):
+    if not bool(re.search(r"^[a-zA-Z_][a-zA-Z0-9_]*$", var)):
+        raise Error(f"'{var}' is an invalid variable name")
+                
+    if var in reserved_keywords:
+        raise Error(f"'{var}' is a reserved keyword") 
+    
+    if var in vars:
+        raise Error(f"'{var}' is already defined")
 
 
-def assign_(exe, re):
-    regex = re.ASSIGN.value.pattern.search(exe.curr_line)
+def _assign_var(exe, var, expr=None, const=False):
+    value = evaluate(str(expr), exe.vars.keys())
+    exe.assign_var(var, value, const)
+
+
+def reassign_(exe, re):
+ 
+    regex = re.REASSIGN.value.pattern.search(exe.curr_line)
     var = regex.group(1)
     val = regex.group(2)
     expr = exe.convert_expr(val)
-    assign(exe, var, expr)
+
+   
+    if var not in list(map(lambda x: x.lower(), exe.vars.keys())):
+        raise Error(f"undefined variable '{var}'")
+    
+
+    if exe.vars[var].const:
+        raise Error(f"cannot reassign value to constant '{var}'")
+  
+                          
+    _assign_var(exe, var, expr)
     
 
 def set_(exe, re):
     var = re.SET.search(exe.curr_line)
-
-    if not validate_var_name(var):
-        raise SyntaxError(f"'{var}' is an invalid variable name")
-                
-    if var in reserved_keywords:
-        raise SyntaxError(f"'{var}' is a reserved keyword")
-    
-  
-
+    _validate_var_name(var, exe.vars.keys())
     regex = re.EXPR.search(exe.curr_line)
     expr = exe.convert_expr(regex)
+    _assign_var(exe, var, expr)
     
-    assign(exe, var, expr)
 
-    
 def let_(exe, re):
     var = re.LET.search(exe.curr_line)
-    assign(exe, var, None)
+    _validate_var_name(var, exe.vars.keys())
+    _assign_var(exe, var)
+
+
+def const_(exe, re):
+    var = re.CONST.search(exe.curr_line)
+    regex = re.EXPR.search(exe.curr_line)
+    expr = exe.convert_expr(regex)
+    _assign_var(exe, var, expr, True)
+
+    
 
 
 def print_(exe, re):
     regex = re.FUNC_ARGS.search(exe.curr_line)
     expr = exe.convert_expr(regex)
-    print(eval(expr))
+    value = evaluate(str(expr), exe.vars.keys()) if expr != '(None)' else 'undefined'
+    print(value)
 
 
 def for_(exe, re):
