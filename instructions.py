@@ -2,7 +2,7 @@ import re
 from evaluate import *
 from errors import Error
 
-reserved_keywords = {"print", "set", "let", "for", "from", "to"}
+reserved_keywords = {"print", "set", "let", "const", "for", "from", "to"}
 
 
 def _validate_var_name(var, vars):
@@ -22,20 +22,16 @@ def _assign_var(exe, var, expr=None, const=False):
 
 
 def reassign_(exe, re):
- 
     regex = re.REASSIGN.value.pattern.search(exe.curr_line)
     var = regex.group(1)
     val = regex.group(2)
     expr = exe.convert_expr(val)
 
-   
     if var not in list(map(lambda x: x.lower(), exe.vars.keys())):
         raise Error(f"undefined variable '{var}'")
     
-
     if exe.vars[var].const:
         raise Error(f"cannot reassign value to constant '{var}'")
-  
                           
     _assign_var(exe, var, expr)
     
@@ -61,8 +57,6 @@ def const_(exe, re):
     _assign_var(exe, var, expr, True)
 
     
-
-
 def print_(exe, re):
     regex = re.FUNC_ARGS.search(exe.curr_line)
     expr = exe.convert_expr(regex)
@@ -90,12 +84,9 @@ def for_(exe, re):
             exe.execute()
             ident_size += 1
 
-
         exe.pc = ref
         
-    
     exe.pc = ref + ident_size
-    
     for v in temp_vars:
         del exe.vars[v]
 
