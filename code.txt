@@ -4,29 +4,26 @@ set num1 = 1
 set num2 = 2
 set num3 = num1 + num2
 
-let var
+print(x+'d')
 
-var = 1
+let y
+print(y)
 
-print<'hello'>
-print<var>
+y = 1
+print(y)
 
+x = 12345
 
+print(x)
+print(2 > 2)
 
-#print(num3 + 1)
-#print(x)
-#print(x + 'd')
-
-
-#for i from 0 to 10
-#    for j from 0 to 2
-#        print<int(i) + int(j)>
+# print - write - in
+# input - read  - out
 
 
-#print(1)
-#print(2)
-#print(3)
+for i from 0 to 20
+    print(i)
 
-# print(num1: #num1)
+
 
 

@@ -1,41 +1,52 @@
 import re
-from dataclasses import dataclass, field
-from execution import Execution
-from regex import Regex
 
 
-reserved_keywords = {"print", "set", "for", "from", "to"}
+reserved_keywords = {"print", "set", "let", "for", "from", "to"}
 
+def validate_var_name(var):
+    return bool(re.search(r"^[a-zA-Z_][a-zA-Z0-9_]*$", var))
 
-
-def assign_(exe, var, expr):
+def assign(exe, var, expr):
     exe.vars[var] = eval(str(expr))
 
 
-def set_(exe: Execution):
-    var = Regex.VAR_NAME.search(exe.curr_line)
+def assign_(exe, re):
+    regex = re.ASSIGN.value.pattern.search(exe.curr_line)
+    var = regex.group(1)
+    val = regex.group(2)
+    expr = exe.convert_expr(val)
+    assign(exe, var, expr)
+    
+
+def set_(exe, re):
+    var = re.SET.search(exe.curr_line)
+
+    if not validate_var_name(var):
+        raise SyntaxError(f"'{var}' is an invalid variable name")
                 
     if var in reserved_keywords:
-        raise SyntaxError()
+        raise SyntaxError(f"'{var}' is a reserved keyword")
+    
+  
 
-    regex = Regex.RIGHT_SIDE.search(exe.curr_line)
+    regex = re.EXPR.search(exe.curr_line)
     expr = exe.convert_expr(regex)
     
-    assign_(exe, var, expr)
+    assign(exe, var, expr)
 
     
-def let_(exe: Execution):
-    var = Regex.VAR_NAME.search(exe.curr_line)
-    assign_(exe, var, None)
+def let_(exe, re):
+    var = re.LET.search(exe.curr_line)
+    assign(exe, var, None)
 
 
-def print_(exe: Execution):
-    regex = Regex.FUNC_ARGS.search(exe.curr_line)
+def print_(exe, re):
+    regex = re.FUNC_ARGS.search(exe.curr_line)
     expr = exe.convert_expr(regex)
     print(eval(expr))
 
 
-def for_(exe: Execution):
+def for_(exe, re):
     pass
 
 

@@ -1,9 +1,7 @@
 import re
 from dataclasses import dataclass, field
 from regex import Regex
-# from instructions import *
 
-reserved_keywords = {"print", "set", "for", "from", "to"}
 
 
 @dataclass
@@ -59,57 +57,12 @@ class Execution:
             self.pc += 1
             return
         
-        split = list(filter(lambda x: x != '', re.split("[\s<>]", self.curr_line.strip())))
-
-        match(split[0]):
-            case 'set':
-                
-                var = Regex.VAR_NAME.search(self.curr_line)
-                
-                if var in reserved_keywords:
-                    raise SyntaxError()
-
-                regex = Regex.RIGHT_SIDE.search(self.curr_line)
-                expr = self.convert_expr(regex)
-                self.vars[var] = eval(str(expr))
-
-            case 'let':
-                var = Regex.VAR_NAME.search(self.curr_line)
-                self.vars[var] = None
-
-        
-
-            case 'print':
-                regex = Regex.FUNC_ARGS.search(self.curr_line)
-                expr = self.convert_expr(regex)
-                print(eval(expr))
-
-
-            case 'for':
-                var = split[1]
-                start = int(split[3])
-                end = int(split[5].strip(':')) + 1
-                step = 1 if len(split) < 7 else int(split[7].strip(':'))
-            
-                ref = self.pc
-                temp_vars = set()
-                
-                for i in range(start, end, step):
-                    
-                    self.vars[var] = str(i)
-                    temp_vars.add(var)                    
-                    self.pc += 1
-
-                    while not self.curr_line or self.curr_line[:4] == '    ':
-                        self.execute()
-
-                    if i != end-step:
-                        self.pc = ref
-                
-                self.pc -= 1
-                for v in temp_vars:
-                    del self.vars[v]
-
+        for r in list(Regex):
+            match = r.value.pattern.search(self.curr_line)
+            if match:
+                if callback := r.value.callback:
+                    callback(self, Regex)
+                    break
 
         self.pc += 1
             
@@ -124,10 +77,7 @@ class Execution:
     # def is_string(self, value):
     #     return bool(re.search(r"^'[^']*'$", value))
 
-    # def convert_ternary(self, expr):
-        
-        
-        
+    # def convert_ternary(self, expr):    
     #     split = expr.split(' ? ')
       
     #     cond = split[0]
