@@ -17,6 +17,7 @@ class Regex(Enum):
     FUNC_ARGS = Pattern(re.compile(r"\w+((.+))"))
     EXPR = Pattern(re.compile(r"=\s*(.*)"))
     PRINT = Pattern(re.compile(r"^print(.*)"), print_)
+    FOR = Pattern(re.compile(r"for\s+(\w+)\s+from\s+([-]?\d+)\s+to\s+([-]?\d+)(\s+step\s+([-]?\d+))?"), for_)
     
     # FOR = Pattern(re.compile(r"for\s+(.*)"), for_)
     # IF = Pattern(re.compile(r"if\s+(.*)"), if_)

@@ -47,31 +47,32 @@ def print_(exe, re):
 
 
 def for_(exe, re):
-    pass
 
+    match = re.FOR.value.pattern.search(exe.curr_line)
+    var, start, end, *step = match.groups()
+    step = int(step[1]) if step[1] else 1
+    start, end = int(start), int(end) + 1
 
-    # var = split[1]
-    # start = int(split[3])
-    # end = int(split[5].strip(':')) + 1
-    # step = 1 if len(split) < 7 else int(split[7].strip(':'))
-
-    # ref = exe.pc
-    # temp_vars = set()
+    ref = exe.pc
+    ident_size = 0
+    temp_vars = set()
     
-    # for i in range(start, end, step):
+    for i in range(start, end, step):
+        exe.vars[var] = str(i)
+        temp_vars.add(var)                    
+        exe.pc += 1
+        ident_size = 0
+        while not exe.eof and (not exe.curr_line or exe.curr_line[:4] == '    '):
+            exe.execute()
+            ident_size += 1
+
+
+        exe.pc = ref
         
-    #     exe.vars[var] = str(i)
-    #     temp_vars.add(var)                    
-    #     exe.pc += 1
-
-    #     while not exe.curr_line or exe.curr_line[:4] == '    ':
-    #         exe.execute()
-
-    #     if i != end-step:
-    #         exe.pc = ref
     
-    # exe.pc -= 1
-    # for v in temp_vars:
-    #     del exe.vars[v]
+    exe.pc = ref + ident_size
+    
+    for v in temp_vars:
+        del exe.vars[v]
 
 

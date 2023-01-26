@@ -25,7 +25,7 @@ list.clear() // []
 
 // ---- LOOPS ----
 
-for i from 0 to 5:
+for i from 0 to 5 step 2:
     print(i)
 
 
@@ -131,3 +131,14 @@ foreach i in list
 
 
 set input = in('Enter a number:')
+
+
+? x > y : print("x is greater than y")
+
+
+x = "hello"
+match x with 
+    "hello": print("Hello World")
+    "bye" : print("Goodbye")
+    _ : print("I don't understand")
+

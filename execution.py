@@ -52,13 +52,14 @@ class Execution:
 
 
     def execute(self):
-        
+
+    
         if(self.ignore_line):
             self.pc += 1
             return
         
         for r in list(Regex):
-            match = r.value.pattern.search(self.curr_line)
+            match = r.value.pattern.search(self.curr_line.strip())
             if match:
                 if callback := r.value.callback:
                     callback(self, Regex)
