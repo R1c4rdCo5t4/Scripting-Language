@@ -4,14 +4,29 @@ set num1 = 1
 set num2 = 2
 set num3 = num1 + num2
 
-# print statements
-print('hello')
-print(num3 + 1)
-print(x)
-print(x + 'd')
+let var
 
+var = 1
+
+print<'hello'>
+print<var>
+
+
+
+#print(num3 + 1)
+#print(x)
+#print(x + 'd')
+
+
+#for i from 0 to 10
+#    for j from 0 to 2
+#        print<int(i) + int(j)>
+
+
+#print(1)
+#print(2)
+#print(3)
 
 # print(num1: #num1)
-
 
 

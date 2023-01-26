@@ -1,7 +1,7 @@
 import re
 from dataclasses import dataclass, field
 from regex import Regex
-
+# from instructions import *
 
 reserved_keywords = {"print", "set", "for", "from", "to"}
 
@@ -54,11 +54,12 @@ class Execution:
 
 
     def execute(self):
+        
         if(self.ignore_line):
             self.pc += 1
             return
         
-        split = list(filter(lambda x: x != '', re.split("[\s()]", self.curr_line.strip())))
+        split = list(filter(lambda x: x != '', re.split("[\s<>]", self.curr_line.strip())))
 
         match(split[0]):
             case 'set':
@@ -71,6 +72,12 @@ class Execution:
                 regex = Regex.RIGHT_SIDE.search(self.curr_line)
                 expr = self.convert_expr(regex)
                 self.vars[var] = eval(str(expr))
+
+            case 'let':
+                var = Regex.VAR_NAME.search(self.curr_line)
+                self.vars[var] = None
+
+        
 
             case 'print':
                 regex = Regex.FUNC_ARGS.search(self.curr_line)
@@ -86,25 +93,20 @@ class Execution:
             
                 ref = self.pc
                 temp_vars = set()
+                
                 for i in range(start, end, step):
                     
                     self.vars[var] = str(i)
-                    temp_vars.add(var)
-                    
+                    temp_vars.add(var)                    
                     self.pc += 1
 
-                    while self.pc < len(self.lines):
-               
-                        if len(self.curr_line) > 4 and self.curr_line[:4] == '    ':
-                            self.execute()
-                        else:
-                            self.pc += 1
-                        
-                        
+                    while not self.curr_line or self.curr_line[:4] == '    ':
+                        self.execute()
+
                     if i != end-step:
                         self.pc = ref
-                    
-                self.pc += 1
+                
+                self.pc -= 1
                 for v in temp_vars:
                     del self.vars[v]
 
