@@ -1,7 +1,10 @@
-# Custom Scripting Language ![Python](https://skillicons.dev/icons?i=python)
+# Scripting Language ![Python](https://skillicons.dev/icons?i=python)
 Attempt of a custom scripting language using Python
 
-<br>
+### How to run the interpreter
+```
+python main.py <file>
+```
 
 ### Features
 - [x] set x = 1
@@ -9,15 +12,19 @@ Attempt of a custom scripting language using Python
 - [x] const z = 1
 - [x] x = 1
 - [x] print(x)
-- [x] math operations and strcat
+- [x] math operations and str concatenation
 - [x] for i from 0 to 10 (step 1)
 - [x] comments (# and ###)
-- [ ] while 
+- [ ] string formatting
+- [ ] while loop
+- [ ] loop 10
 - [ ] if-else
 - [ ] lists
 - [ ] list and str slicing
-- [ ] standard functions (len, )
+- [ ] built-in functions (len, sum, enum, max, ...)
 - [ ] maps
 - [ ] fn my_func(x) => x
+- [ ] lambda functions
+- [ ] list comprehensions
 - [ ] classes
 - [ ] ...
