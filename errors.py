@@ -4,8 +4,8 @@ from dataclasses import dataclass
 class Error(Exception):
     msg: str = ""
 
-    def message(self, exe):
-        return f">> '{exe.file}' (line {exe.pc + 1})\n   '{exe.curr_line.strip()}'\n{self.msg}"    
+    def traceback(self, exe):
+        return f">> {exe.file} (line {exe.pc + 1})\n   '{exe.curr_line.strip()}'"    
 
     def __call__(self, msg, exe):
         self.msg = msg

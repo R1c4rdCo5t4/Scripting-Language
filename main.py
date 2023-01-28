@@ -14,7 +14,13 @@ def main():
         
         tb = traceback.extract_tb(e.__traceback__)
         print(f'Error in {tb[-1].filename}, line {tb[-1].lineno}')
-        print(e.message(exe))
+
+        if hasattr(e, 'traceback'):
+            print(e.traceback(exe))
+      
+        print(e)
+        
+
         
        
 

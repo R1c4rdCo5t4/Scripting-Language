@@ -50,11 +50,13 @@ class Execution:
             return f"'{val}'" if (isinstance(val, str)) else str(val)
         
         return var
+        
 
 
     def convert_expr(self, expr: list[str]) -> str:
   
-        expr = re.sub(r"\b(\w+)\b", self.substitute, expr)
+        expr = re.sub(r"(?<![\"'])\b(\w+)\b", self.substitute, expr)
+
         if '?' in expr and ':' in expr:
             expr = self.convert_ternary(expr)
 

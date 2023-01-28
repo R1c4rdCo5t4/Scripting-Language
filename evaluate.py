@@ -12,6 +12,7 @@ def check_undefined_vars(tree, vars):
 
 
 def evaluate(expr, vars):
+
     if expr.strip('()') == 'None':
         return None
 

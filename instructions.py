@@ -76,8 +76,8 @@ def for_(exe, re):
     temp_vars = set()
     
     for i in range(start, end, step):
-        exe.vars[var] = str(i)
-        temp_vars.add(var)                    
+        _assign_var(exe, var, i)
+        temp_vars.add(var)
         exe.pc += 1
         ident_size = 0
         while not exe.eof and (not exe.curr_line or exe.curr_line[:4] == '    '):

@@ -1,42 +1,13 @@
-
-
-
-set x = 2
-set y = 2
-
-const ff = 1
-
-let variable
-print(variable)
-variable = x
-print(variable)
-
-set x = 2
-
-###
-val = 2
-
-print('hellooooo')
-
-print(1)
-print(x + y)
-print('hello' + ' world')
-
+set x = 1
+const y = 2
 let z
 
-print(z)
-
-z = 2
-x = 10
-print(z)
-
-set hhh = z + x
-print(hhh)
-
-
-
-set x = 0
 print(x)
+print(x + y)
+print(z)
 
-print(y)
-###
+z = 3
+print('z: ' + z)
+
+for i from 0 to 5
+    print('i:  ' +i)
