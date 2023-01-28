@@ -1,18 +1,16 @@
 import ast
 import operator as op
-from errors import Error
+from classes import *
 
 def check_undefined_vars(tree, vars):
     for node in ast.walk(tree):
         if isinstance(node, ast.Name) and node.id not in vars:
-            print(node.id)
             return node.id
     
     return None
 
 
 def evaluate(expr, vars):
-
     if expr.strip('()') == 'None':
         return None
 
@@ -43,10 +41,10 @@ def evaluate(expr, vars):
         elif isinstance(node, ast.UnaryOp) and isinstance(node.op, ast.USub):
             return operations[ast.USub](_eval(node.operand))
         
+        elif isinstance(node, ast.IfExp):
+            return _eval(node.body) if _eval(node.test) else _eval(node.orelse)
+        
         else:
             raise Error(f"invalid syntax: '{undefined}'")
-            
-    # parsed = ast.parse(expr)
-    # compiled = compile(parsed, filename='<string>', mode='exec')
-    # return exec(compiled)
+
     return _eval(node.body)

@@ -1,13 +1,21 @@
-import re
+from importlib import import_module
 from dataclasses import dataclass, field
-from regex import Regex
-from errors import Error
+from classes import *
+from functions import default_functions
 
 
-@dataclass
-class Variable:
-    value: any
-    const: bool
+inst_module = import_module('instructions')
+default_ops = lambda: {
+    '/': '//',
+    '^': '**',
+    'undefined': 'None',
+    'null': 'None',
+    'true': 'True',
+    'false': 'False',
+    'isnt': 'is not',
+}
+
+
 
 
 @dataclass
@@ -15,11 +23,10 @@ class Execution:
     file: str
     lines: list[str] = field(default_factory=list)
     pc : int = 0
-    ops : str = '+-*/^'
-    vars: dict[str, any] = field(default_factory=lambda: {
-        '/': '//',
-        '^': '**'
-    })
+    vars: dict[str, any] = field(default_factory=default_ops)
+    functions: dict[str, Function] = field(default_factory=lambda: default_functions)
+    regex: Regex = field(default_factory=Regex)
+
     
     def __post_init__(self):
         with open(self.file, "r") as f:
@@ -42,26 +49,38 @@ class Execution:
     def assign_var(self, name, value, const=False):
         self.vars[name] = Variable(value, const)
     
+
+    def convert_ternary(self, expr):    
+        cond, true, false = expr.replace(' ? ', ':').split(':')
+        return f"{true} if {cond} else {false}"
    
-    def substitute(self, match):
-        var = match.group(1)
-        if var in self.vars.keys():
-            val = self.vars[var].value
-            return f"'{val}'" if (isinstance(val, str)) else str(val)
-        
-        return var
-        
+
+    def substitute_symbols(self, expr):
+        for key, value in self.vars.items():
+            expr = expr.replace(key, str(value.value) if isinstance(value, Variable) else value)
+
+        return expr
 
 
     def convert_expr(self, expr: list[str]) -> str:
   
-        expr = re.sub(r"(?<![\"'])\b(\w+)\b", self.substitute, expr)
+        expr = self.substitute_symbols(expr)
 
         if '?' in expr and ':' in expr:
             expr = self.convert_ternary(expr)
 
+
         return expr
 
+
+    def search_line_expr(self, expr, start=1, end=1, all=False):
+        match = self.regex.expressions[expr].search(self.curr_line.strip())
+
+        if not match:
+            raise Error(f"invalid syntax: '{self.curr_line}'")
+
+        return match.groups() if all else match.group(start) if start == end else match.group(start, end)
+    
 
     def execute(self):
 
@@ -75,15 +94,37 @@ class Execution:
             self.pc += 1
             return
     
+
+      
+        for name, regex in self.regex.expressions.items():
         
-        for r in list(Regex):
-            match = r.value.pattern.search(self.curr_line.strip())
+            match = regex.search(self.curr_line.strip())
+            items = match.groups() if match else None
+           
             if match:
-                if callback := r.value.callback:
-                    callback(self, Regex)
-                    break
+                inst_name = name + '_'
+                
+
+                if name == 'fn_call':
+                    if items[0] in self.functions.keys():
+                        fn_call = getattr(inst_module, 'fn_call_')
+                        fn_call(self)
+                    else:
+                        raise Error(f"invalid syntax: undefined function '{items[0]}'")
+                
+                elif inst := getattr(inst_module, inst_name, None):
+                    inst(self)
+                    
+
+                    
+
+                else:
+                    raise Error(f"invalid syntax: '{inst_name[:-1]}'")
+                
+                break
+
         else:
-            raise Error(f"invalid syntax: 'unknown instruction'")
+            raise Error(f"invalid syntax: unknown instruction")
         
         self.pc += 1
             
@@ -95,15 +136,6 @@ class Execution:
 
 
 
-    # def is_string(self, value):
-    #     return bool(re.search(r"^'[^']*'$", value))
+# def is_string(self, value):
+#     return bool(re.search(r"^'[^']*'$", value))
 
-    # def convert_ternary(self, expr):    
-    #     split = expr.split(' ? ')
-      
-    #     cond = split[0]
-    #     out = split[1].split(' : ')
-    #     true = out[0]
-    #     false = out[1]
-    #     print(f"{true} if {cond} else {false}")
-    #     return f"{true} if {cond} else {false}"
