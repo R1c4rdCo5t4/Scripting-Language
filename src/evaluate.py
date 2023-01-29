@@ -2,17 +2,16 @@ import ast
 import operator as op
 from classes import *
 
+
 def check_undefined_vars(tree, vars):
     for node in ast.walk(tree):
         if isinstance(node, ast.Name) and node.id not in vars:
             return node.id
-    
+
     return None
 
 
 def evaluate(expr, vars):
-    if expr.strip('()') == 'None':
-        return None
 
     operations = { 
         ast.Add: op.add, ast.Sub: op.sub, ast.Mult: op.mul,
@@ -21,7 +20,6 @@ def evaluate(expr, vars):
     }
 
     node = ast.parse(expr, mode='eval')
-
     if undefined := check_undefined_vars(node, vars):
         raise Error(f"undefined variable '{undefined}'")
 
@@ -35,6 +33,7 @@ def evaluate(expr, vars):
         elif isinstance(node, ast.BinOp):
             if isinstance(node.left, ast.Str) or isinstance(node.right, ast.Str):
                 return str(_eval(node.left)) + str(_eval(node.right))
+            
             else:
                 return operations[type(node.op)](_eval(node.left), _eval(node.right))
             
@@ -45,6 +44,6 @@ def evaluate(expr, vars):
             return _eval(node.body) if _eval(node.test) else _eval(node.orelse)
         
         else:
-            raise Error(f"invalid syntax: '{undefined}'")
+            raise Error(f"invalid syntax: '{expr}'")
 
     return _eval(node.body)

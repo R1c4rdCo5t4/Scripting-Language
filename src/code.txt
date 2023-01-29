@@ -1,0 +1,9 @@
+
+set x = 'world'
+
+fn say_hello()
+    print('hello')
+
+say_hello()
+
+

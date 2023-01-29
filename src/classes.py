@@ -1,5 +1,8 @@
 import re
 from dataclasses import dataclass, field
+from types import FunctionType as function
+
+
 
 @dataclass
 class Variable:
@@ -10,12 +13,12 @@ class Variable:
 @dataclass
 class Function:
     name: str
-    body: list[str]
-    args: list[str] = field(default_factory=list)
-    default: bool = False
-    vars: dict[str, any] = field(default_factory=dict)
-    ret: any = None
+    args: list[str]
+    fn_def: int | function
 
+    @property
+    def is_default(self):
+        return not isinstance(self.fn_def, int)
 
 
 @dataclass
@@ -31,7 +34,6 @@ class Error(Exception):
     
 
 
-
 @dataclass
 class Regex:
 
@@ -44,13 +46,16 @@ class Regex:
         'fn_def': r"^fn\s+(\w+)\((.*)\)",
         'for': r"^for\s+(\w+)\s+from\s+([-]?\d+)\s+to\s+([-]?\d+)(\s+step\s+([-]?\d+))?",
         'expr': r"=\s*(.*)",
+        'split': r"(\".*?\"|'.*?'|[^\s]+)",
       
     })
 
-
-
     def __post_init__(self):
         self.expressions = {key: re.compile(value) for key, value in self.expressions.items()}
+
+    @classmethod
+    def is_string(self, value):
+        return bool(re.search(r"^'[^']*'$", value))
 
 
     # FOR = Pattern(re.compile(r"for\s+(.*)"), for_)
@@ -60,19 +65,4 @@ class Regex:
     # BREAK = Pattern(re.compile(r"break\s+(.*)"), break_)
     # CONTINUE = Pattern(re.compile(r"continue\s+(.*)"), continue_)
     # RETURN = Pattern(re.compile(r"ret\s+(.*)"), return_)
-
-    # @property
-    # def patterns(self):
-    #     patterns = {}
-    #     patterns.update(self.instructions)
-    #     patterns.update(self.expressions)
-    #     return patterns
-    
-
-    # def search(self, pattern, idx = 1):
-    #     match = self.value.pattern.search(pattern)
-    #     if match:
-    #         return match.group(idx)
-
-    #     raise Error('invalid syntax')
 
