@@ -86,9 +86,11 @@ fn cond_list => [(1..5) % 2 == 0 ? # : 0] // [0,2,0,4,0] short map with conditio
 
 fn accumulate_list => [(1..5) => _ + #] // [15] short accumulate
 
-set generateMap = {(1..5):('a'..'e')} // {1:a, 2:b, 3:c, 4:d, 5:e}
+set generateMap = {(1..5): ('a'..'e')} // {1:a, 2:b, 3:c, 4:d, 5:e}
 
+set cartesianProduct = (1..5) * ('a'..'e') // every possible combination
 
+set emptyArray = [0] * 5 // [0, 0, 0, 0, 0]
 
 // ---- CLASSES ----
 

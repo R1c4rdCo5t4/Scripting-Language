@@ -82,7 +82,6 @@ def fn_call_(exe):
 
     else:
         for i, arg in enumerate(args):
-            print(fn.args[i], exe.substitute_symbols(arg))
             assign_var(exe, fn.args[i], exe.substitute_symbols(arg))
         
         if not isinstance(fn.fn_def, int):
@@ -93,6 +92,7 @@ def fn_call_(exe):
             exe.execute()
             exe.pc += 1
         
+        exe.pc += 1
         for arg in fn.args:
             del exe.vars[arg]
 
