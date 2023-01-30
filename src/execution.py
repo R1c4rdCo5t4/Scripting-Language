@@ -52,11 +52,14 @@ class Execution:
                 self.pc += 1
 
     def assign_var(self, name, value, const=False):
-        self.vars[name] = Variable(value, const)
+        tp = type(eval(str(value)))
+        value = evaluate(str(value), self.vars.keys())
+        self.vars[name] = Variable(value, tp, const)
+
     
 
     def convert_ternary(self, expr):    
-        cond, true, false = expr.replace(' ? ', ':').split(':')
+        cond, true, false = expr.replace(' ? ', ' : ').split(' : ')
         return f"{true} if {cond} else {false}"
    
 
@@ -72,6 +75,7 @@ class Execution:
         return ''.join(parts)
 
 
+
     def convert_expr(self, expr: list[str]) -> str:
         expr = self.substitute_symbols(expr)
         if '?' in expr and ':' in expr:
@@ -81,26 +85,24 @@ class Execution:
 
 
     def search_line_expr(self, expr, start=1, end=1, all=False):
-        match = self.regex.expressions[expr].search(self.curr_line.strip())
+        match = self.regex.patterns[expr].search(self.curr_line.strip())
         if not match:
             raise Error(f"invalid syntax: '{self.curr_line}'")
 
         return match.groups() if all else match.group(start) if start == end else match.group(start, end)
-    
+
 
     def execute(self):
-        
         if self.ignore_lines or self.ignore_line:       
             self.pc += 1
             return
         
-        for name, regex in self.regex.expressions.items():
+        for name, regex in self.regex.instructions.items():
             if regex.search(self.curr_line.strip()):
                 inst_name = name + '_'
                 inst = getattr(inst_module, inst_name, None)
                 inst(self)
                 break
-
         else:
             raise Error(f"invalid syntax: unknown instruction '{self.curr_line}''")
         

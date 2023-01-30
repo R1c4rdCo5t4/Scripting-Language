@@ -7,7 +7,10 @@ from types import FunctionType as function
 @dataclass
 class Variable:
     value: any
+    type: str
     const: bool
+
+
 
 
 @dataclass
@@ -37,25 +40,36 @@ class Error(Exception):
 @dataclass
 class Regex:
 
-    expressions: dict[str, str] = field(default_factory=lambda:{
+    instructions: dict[str, str] = field(default_factory=lambda:{
         'set': r"^set\s+(\w+)",
         'let': r"^let\s+(\w+)",
         'const': r"^const\s+(\w+)",
-        'reassign': r"^(\w+)\s*=\s*(\w+)",
+        'reassign': r"^(\w+)\s*=\s*(.*)",
         'fn_call': r"^([a-zA-Z_][a-zA-Z0-9_]*)\(([^)]*)\)",
         'fn_def': r"^fn\s+(\w+)\((.*)\)",
-        'for': r"^for\s+(\w+)\s+from\s+([-]?\d+)\s+to\s+([-]?\d+)(\s+step\s+([-]?\d+))?",
+        'for': r"^for\s+(\w+)\s+from\s+(\w+|[-]?\d+)\s+to\s+(\w+|[-]?\d+)(\s+by\s+(\w+|[-]?\d+))?",      
+    })
+
+    expressions: dict[str, re.Pattern] = field(default_factory=lambda: {
         'expr': r"=\s*(.*)",
         'split': r"(\".*?\"|'.*?'|[^\s]+)",
-      
     })
 
     def __post_init__(self):
-        self.expressions = {key: re.compile(value) for key, value in self.expressions.items()}
+        self.instructions = self.compile(self.instructions)
+        self.expressions = self.compile(self.expressions)
+
+    @classmethod
+    def compile(self, dict) -> dict[str, re.Pattern]:
+        return { key: re.compile(value) for key, value in dict.items() }
 
     @classmethod
     def is_string(self, value):
         return bool(re.search(r"^'[^']*'$", value))
+    
+    @property
+    def patterns(self) -> dict[str, re.Pattern]:
+        return {**self.instructions, **self.expressions}
 
 
     # FOR = Pattern(re.compile(r"for\s+(.*)"), for_)

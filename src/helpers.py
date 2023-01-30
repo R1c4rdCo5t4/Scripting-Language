@@ -24,6 +24,12 @@ def validate_var_name(var, vars):
         raise Error(f"'{var}' is already defined")
 
 
-def assign_var(exe, var, expr=None, const=False):
-    value = evaluate(str(expr), exe.vars.keys())
-    exe.assign_var(var, value, const)
+def get_type(value):
+    if value == 'None':
+        return None
+    elif value == 'true' or value == 'false':
+        return bool
+    elif value[0] == "'" and value[-1] == "'":
+        return str
+    else:
+        return int

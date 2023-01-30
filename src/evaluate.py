@@ -12,11 +12,14 @@ def check_undefined_vars(tree, vars):
 
 
 def evaluate(expr, vars):
+    if expr in ('', 'None'):
+        return None
 
     operations = { 
         ast.Add: op.add, ast.Sub: op.sub, ast.Mult: op.mul,
         ast.Div: op.truediv, ast.Pow: op.pow, ast.BitXor: op.xor,
-        ast.Mod: op.mod, ast.USub: op.neg, ast.FloorDiv: op.floordiv 
+        ast.Mod: op.mod, ast.USub: op.neg, ast.FloorDiv: op.floordiv,
+        ast.Eq: op.eq, ast.NotEq: op.ne,
     }
 
     node = ast.parse(expr, mode='eval')
@@ -43,7 +46,12 @@ def evaluate(expr, vars):
         elif isinstance(node, ast.IfExp):
             return _eval(node.body) if _eval(node.test) else _eval(node.orelse)
         
+        elif isinstance(node, ast.Compare):
+            comp = node.comparators[0]
+            return operations[type(node.ops[0])](_eval(node.left), _eval(comp))
+
         else:
             raise Error(f"invalid syntax: '{expr}'")
 
     return _eval(node.body)
+

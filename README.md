@@ -32,13 +32,29 @@ python main.py <file>
 
 ### Example Code
 ```
-
-set str = 'number: '
-
 fn my_function(n)
-    print(str + n)
+    print('number:', n)
 
-for i from 0 to 10
+const start = 0
+const end = 10
+let step
+
+set step_str = 'two'
+step = step_str == 'one' ? 1 : 2
+log(step)
+
+for i from start to end by step
     my_function(i)
-
 ```
+
+### Output
+```
+step = 2 (int)
+number: 0
+number: 2
+number: 4
+number: 6
+number: 8
+number: 10
+```
+
