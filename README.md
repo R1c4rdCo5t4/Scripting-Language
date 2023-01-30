@@ -28,3 +28,17 @@ python main.py <file>
 - [ ] list comprehensions
 - [ ] classes
 - [ ] ...
+
+
+### Example Code
+```
+
+set str = 'number: '
+
+fn my_function(n)
+    print(str + n)
+
+for i from 0 to 10
+    my_function(i)
+
+```
