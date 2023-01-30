@@ -11,19 +11,19 @@ python main.py <file>
 - [x] let y
 - [x] const z = 1
 - [x] x = 1
-- [x] print(x)
+- [x] print
 - [x] math operations and str concatenation
-- [x] for i from 0 to 10 (step 1)
+- [x] for loop
 - [x] comments (# and ###)
+- [x] functions
 - [ ] string formatting
-- [ ] while loop
+- [ ] while
 - [ ] loop 10
 - [ ] if-else
 - [ ] lists
 - [ ] list and str slicing
 - [ ] built-in functions (len, sum, enum, max, ...)
 - [ ] maps
-- [ ] fn my_func(x) => x
 - [ ] lambda functions
 - [ ] list comprehensions
 - [ ] classes
