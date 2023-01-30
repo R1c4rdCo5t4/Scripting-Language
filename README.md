@@ -16,6 +16,9 @@ python main.py <file>
 - [x] for loop
 - [x] comments (# and ###)
 - [x] functions
+- [x] ternary operator
+- [x] str, int, bool and none types
+- [x] log function for debug
 - [ ] string formatting
 - [ ] while
 - [ ] loop 10
