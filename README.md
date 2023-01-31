@@ -1,5 +1,5 @@
 # Scripting Language ![Python](https://skillicons.dev/icons?i=python)
-Attempt of a custom scripting language using Python
+Custom scripting language using Python (in development)
 
 ### How to run the interpreter
 ```
@@ -14,13 +14,11 @@ python main.py <file>
 - [x] print
 - [x] math operations and str concatenation
 - [x] for loop
-- [x] comments (# and ###)
+- [x] comments (# single-line and ### multi-line)
 - [x] functions
 - [x] ternary operator
 - [x] str, int, bool and none types
-- [x] log function for debug
-- [x] shell
-- [ ] unit tests
+- [x] log function for debugging
 - [ ] string formatting
 - [ ] while
 - [ ] loop 10
