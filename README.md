@@ -19,6 +19,7 @@ python main.py <file>
 - [x] ternary operator
 - [x] str, int, bool and none types
 - [x] log function for debugging
+- [x] shell mode
 - [ ] string formatting
 - [ ] while
 - [ ] loop 10
