@@ -3,7 +3,7 @@ Custom scripting language using Python (in development)
 
 ### How to run the interpreter
 ```
-python main.py <file>
+python main.py [-f <file>]
 ```
 
 ### Features
