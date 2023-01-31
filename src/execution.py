@@ -63,11 +63,10 @@ class Execution:
                 self.pc += 1
 
     def assign_var(self, name, value, const=False):
-        tp = type(eval(str(value)))
-        value = evaluate(str(value), self.vars.keys())
+        value = evaluate(str(value), self.vars)
+        tp = type(value)
         self.vars[name] = Variable(value, tp, const)
 
-    
 
     def convert_ternary(self, expr):    
         cond, true, false = expr.replace(' ? ', ' : ').split(' : ')
@@ -81,7 +80,8 @@ class Execution:
         for i, part in enumerate(parts):
             if not Regex.is_string(part):
                 if val := self.vars.get(part, None):
-                    parts[i] = f"'{val.value}'" if isinstance(val, Variable) else val
+                    value = val.value if isinstance(val, Variable) else val
+                    parts[i] = f"'{value}'" if isinstance(value, str) else str(value)
 
         return ''.join(parts)
 

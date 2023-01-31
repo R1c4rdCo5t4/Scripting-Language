@@ -62,3 +62,7 @@ number: 8
 number: 10
 ```
 
+### Run Tests
+```
+python -m unittest discover
+```

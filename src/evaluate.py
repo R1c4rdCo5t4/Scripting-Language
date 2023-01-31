@@ -20,7 +20,9 @@ def evaluate(expr, vars):
         ast.Div: op.truediv, ast.Pow: op.pow, ast.BitXor: op.xor,
         ast.Mod: op.mod, ast.USub: op.neg, ast.FloorDiv: op.floordiv,
         ast.Eq: op.eq, ast.NotEq: op.ne,
+        ast.Gt: op.gt, ast.GtE: op.ge, ast.Lt: op.lt, ast.LtE: op.le
     }
+
 
     node = ast.parse(expr, mode='eval')
     if undefined := check_undefined_vars(node, vars):

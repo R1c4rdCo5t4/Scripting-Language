@@ -23,7 +23,6 @@ def main():
     
     exe = Execution(file)
 
-    
     while exe.running:
         try:
             exe.execute() # line by line

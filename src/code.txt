@@ -4,7 +4,7 @@ fn my_function(n)
     print('number:', n)
 
 const start = 0
-const end = 10
+const end = start + 10
 let step
 
 set step_str = 'two'
