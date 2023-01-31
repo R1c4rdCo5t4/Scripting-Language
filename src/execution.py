@@ -28,9 +28,21 @@ class Execution:
     regex: Regex = field(default_factory=Regex)
     
     def __post_init__(self):
-        with open(self.file, "r") as f:
-            self.lines = f.read().splitlines()
+        if not self.shell_mode:
+            with open(self.file, "r") as f:
+                self.lines = f.read().splitlines()
     
+    @property
+    def shell_mode(self):
+        return self.file == None
+
+    @property
+    def running(self):
+        if self.shell_mode:
+            return True
+        
+        return not self.eof
+
     @property
     def curr_line(self):
         return self.lines[self.pc]
@@ -42,7 +54,6 @@ class Execution:
     @property
     def ignore_line(self):
         return self.curr_line.strip() == '' or self.curr_line[0] == '#'
-
 
     @property
     def ignore_lines(self):
@@ -93,6 +104,11 @@ class Execution:
 
 
     def execute(self):
+
+        if self.shell_mode:
+            new_line = input('>>> ')
+            self.lines.append(new_line)
+
         if self.ignore_lines or self.ignore_line:       
             self.pc += 1
             return
