@@ -3,7 +3,7 @@ Custom scripting language using Python (in development)
 
 ### How to run the interpreter
 ```
-python main.py [-f <file>]
+cd src && python main.py [-f <file>]
 ```
 
 ### Features
@@ -36,19 +36,20 @@ python main.py [-f <file>]
 
 ### Example Code
 ```
-fn my_function(n)
-    print('number:', n)
+fn my_function[n]
+    print 'number:', n
 
 const start = 0
-const end = 10
+const end = start + 10
 let step
 
 set step_str = 'two'
 step = step_str == 'one' ? 1 : 2
-log(step)
+
+log step
 
 for i from start to end by step
-    my_function(i)
+    my_function i
 ```
 
 ### Output
@@ -64,5 +65,5 @@ number: 10
 
 ### Run Tests
 ```
-python -m unittest discover
+cd tests && python -m unittest discover
 ```

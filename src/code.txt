@@ -1,7 +1,7 @@
 
 
-fn my_function(n)
-    print('number:', n)
+fn my_function[n]
+    print 'number:', n
 
 const start = 0
 const end = start + 10
@@ -9,9 +9,10 @@ let step
 
 set step_str = 'two'
 step = step_str == 'one' ? 1 : 2
-log(step)
+
+log step
 
 for i from start to end by step
-    my_function(i)
+    my_function i
 
 
