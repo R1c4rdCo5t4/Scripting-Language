@@ -101,6 +101,16 @@ def fn_call_(exe):
 def fn_def_(exe):
     fn_name, args = exe.search_line_expr('fn_def', all=True)
     args = filter_args(args)
+
+    if fn_name in exe.functions.keys():
+        raise Error(f"function error: function '{fn_name}' is already defined")
+    
+    if fn_name in reserved_keywords:
+        raise Error(f"function error: '{fn_name}' is a reserved keyword")
+
+    if any([arg in reserved_keywords for arg in args]):
+        raise Error(f"function error: function arguments cannot be reserved keywords")
+
     exe.pc += 1
     ref = exe.pc
     exe.functions[fn_name] = Function(fn_name, args, ref)

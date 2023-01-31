@@ -2,7 +2,7 @@ import re
 from classes import Error
 from evaluate import *
 
-reserved_keywords = {"print", "set", "let", "const", "for", "from", "to"}
+reserved_keywords = {"print", "set", "let", "const", "for", "from", "to", "fn"}
 
 def filter_values(iterable: list, condition: callable) -> list:
     return list(filter(condition, iterable))
