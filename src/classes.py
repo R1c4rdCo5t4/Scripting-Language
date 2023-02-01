@@ -79,4 +79,3 @@ class Regex:
     # BREAK = Pattern(re.compile(r"break\s+(.*)"), break_)
     # CONTINUE = Pattern(re.compile(r"continue\s+(.*)"), continue_)
     # RETURN = Pattern(re.compile(r"ret\s+(.*)"), return_)
-

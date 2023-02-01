@@ -11,7 +11,7 @@ def filter_empty(iterable: list) -> list:
     return filter_values(iterable, lambda x: x != '')
 
 def filter_args(args: list) -> list:
-    return filter_empty(args.split(','))
+    return filter_empty([arg.strip() for arg in args.split(',')])
 
 def validate_var_name(var, vars):
     if not bool(re.search(r"^[a-zA-Z_][a-zA-Z0-9_]*$", var)):

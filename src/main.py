@@ -31,8 +31,6 @@ def main():
             break
        
         except Exception as e:
-            print(exe.curr_line)
-            raise e
             tb = traceback.extract_tb(e.__traceback__)
             print(f'Error in {tb[-1].filename}, line {tb[-1].lineno}')
 

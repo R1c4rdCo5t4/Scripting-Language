@@ -36,8 +36,8 @@ cd src && python main.py [-f <file>]
 
 ### Example Code
 ```
-fn my_function[n]
-    print 'number:', n
+fn my_function[str, n]
+    print str, n
 
 const start = 0
 const end = start + 10
@@ -49,7 +49,7 @@ step = step_str == 'one' ? 1 : 2
 log step
 
 for i from start to end by step
-    my_function i
+    my_function 'number:', i
 ```
 
 ### Output

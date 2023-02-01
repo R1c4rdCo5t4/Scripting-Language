@@ -67,6 +67,7 @@ def fn_call_(exe):
     fn_name, args = exe.search_line_expr('fn_call', all=True)
     args = filter_args(args)
     
+    
     if fn_name not in exe.functions.keys():
         raise Error(f"invalid syntax: undefined function '{fn_name}'")
     

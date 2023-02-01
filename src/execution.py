@@ -74,7 +74,7 @@ class Execution:
    
 
     def substitute_symbols(self, expr):
-        parts = re.split(self.regex.expressions['split'], expr.strip())
+        parts = re.split(self.regex.expressions['split'], str(expr).strip())
         parts = filter_empty(parts)
 
         for i, part in enumerate(parts):
