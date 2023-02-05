@@ -12,7 +12,7 @@ def log_(exe, args, eval_args):
     if var not in exe.vars.keys():
         raise Error(f"invalid argument for log function: {var}")
     
-    print(f"{var} = {exe.vars[var].value} ({(exe.vars[var]).type.__name__})")
+    print(f"{var} = {exe.vars[var].value} ({(exe.vars[var]).type})")
 
 def len_(exe, args, eval_args):
     print(len(args[0]))

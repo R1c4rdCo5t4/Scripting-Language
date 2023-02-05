@@ -1,4 +1,12 @@
 set a = 1
 let b
-
 b = a
+const c = 'hello'
+
+for i from 0 to 5 step 1
+    print 'repeat'
+
+fn test[x]
+    print x
+    
+test c

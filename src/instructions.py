@@ -52,7 +52,7 @@ def for_(exe):
         temp_vars.add(var)
         exe.pc += 1
         ident_size = 0
-        while not exe.eof and (not exe.curr_line or exe.curr_line[:4] == '    '):
+        while not exe.eof and exe.curr_line[:4] == '    ':
             exe.execute()
             ident_size += 1
         exe.pc = ref
@@ -60,13 +60,12 @@ def for_(exe):
     exe.pc = ref + ident_size
     for v in temp_vars:
         del exe.vars[v]
-
+    print('>>', exe.pc)
 
 
 def fn_call_(exe):
     fn_name, args = exe.search_line_expr('fn_call', all=True)
     args = filter_args(args)
-    
     
     if fn_name not in exe.functions.keys():
         raise Error(f"invalid syntax: undefined function '{fn_name}'")

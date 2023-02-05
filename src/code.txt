@@ -1,4 +1,4 @@
-
+print 'start'
 
 fn my_function[str, n]
     print str, n
@@ -15,4 +15,5 @@ log step
 for i from start to end by step
     my_function 'number:', i
 
+print 'end'
 

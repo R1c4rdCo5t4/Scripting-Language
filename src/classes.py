@@ -11,8 +11,6 @@ class Variable:
     const: bool
 
 
-
-
 @dataclass
 class Function:
     name: str

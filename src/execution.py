@@ -52,22 +52,29 @@ class Execution:
         return self.pc >= len(self.lines)
     
     @property
-    def ignore_line(self):
-        return self.curr_line.strip() == '' or self.curr_line[0] == '#'
+    def ignore_line(self): # single-line comment or empty lines
+        return self.curr_line.strip() == '' or self.curr_line.strip().startswith('#')
+    
 
     @property
-    def ignore_lines(self):
-        if self.curr_line.strip()[:3] == '###': # multi-line comment
+    def ignore_lines(self): # multi-line comment
+        if self.curr_line.strip().startswith('###'): 
             self.pc += 1
-            while self.curr_line.strip()[:3] != '###' and not self.eof:
+            while self.curr_line.strip().startswith('###') and not self.eof:
                 self.pc += 1
             
             return True
         return False
+    
+    def reset(self):
+        self.pc = 0
+        self.vars = {}
+        self.functions = default_functions
+    
 
     def assign_var(self, name, value, const=False):
         value = evaluate(str(value), self.vars)
-        tp = type(value)
+        tp = type(value).__name__
         self.vars[name] = Variable(value, tp, const)
 
 
@@ -107,6 +114,9 @@ class Execution:
 
 
     def execute(self):
+
+        if self.eof:
+            raise Error("interpreter error: end of file reached")
 
         if self.shell_mode:
             new_line = input('>>> ')
