@@ -1,4 +1,4 @@
 set a = 1
-set b = 2
+let b
 
-set c = a + b
+b = a

@@ -61,6 +61,9 @@ class Execution:
             self.pc += 1
             while self.curr_line.strip()[:3] != '###' and not self.eof:
                 self.pc += 1
+            
+            return True
+        return False
 
     def assign_var(self, name, value, const=False):
         value = evaluate(str(value), self.vars)
