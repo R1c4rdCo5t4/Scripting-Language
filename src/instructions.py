@@ -60,7 +60,6 @@ def for_(exe):
     exe.pc = ref + ident_size
     for v in temp_vars:
         del exe.vars[v]
-    print('>>', exe.pc)
 
 
 def fn_call_(exe):

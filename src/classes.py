@@ -43,7 +43,7 @@ class Regex:
         'let': r"^let\s+(\w+)",
         'const': r"^const\s+(\w+)",
         'reassign': r"^(\w+)\s*=\s*(.*)",
-        'for': r"^for\s+(\w+)\s+from\s+(\w+|[-]?\d+)\s+to\s+(\w+|[-]?\d+)(\s+by\s+(\w+|[-]?\d+))?",      
+        'for': r"^for\s+(\w+)\s+from\s+(\w+|[-]?\d+)\s+to\s+(\w+|[-]?\d+)(\s+step\s+(\w+|[-]?\d+))?",      
         'fn_def': r"^fn\s+(\w+)\[(.*)\]",
         'fn_call': r"^([a-zA-Z_][a-zA-Z0-9_]*)\s+(.*)",
     })

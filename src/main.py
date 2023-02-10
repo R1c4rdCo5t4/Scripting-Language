@@ -1,26 +1,11 @@
+
 import sys
-import getopt
 import traceback
 from execution import *
 
 
-
 def main():
-    
-    try:
-        opts, args = getopt.getopt(sys.argv[1:], 'hf:', ['help', 'file'])
-        file = None
-
-        for opt, arg in opts:
-            if opt in ('-h', '--help'):
-                print('main.py -f <file>')
-                return
-            elif opt in ('-f', '--file'):
-                file = arg
-    except getopt.GetoptError as e:
-        print(e.msg)
-        return
-    
+    file = sys.argv[1]
     exe = Execution(file)
 
     while exe.running:
@@ -43,8 +28,6 @@ def main():
                 break
             
             exe.pc += 1
-
-   
 
 
 

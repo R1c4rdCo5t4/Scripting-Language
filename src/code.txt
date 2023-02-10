@@ -5,14 +5,14 @@ fn my_function[str, n]
 
 const start = 0
 const end = start + 10
-let step
 
+let x
 set step_str = 'two'
-step = step_str == 'one' ? 1 : 2
+x = step_str == 'one' ? 1 : 2
 
-log step
+log x
 
-for i from start to end by step
+for i from start to end step x
     my_function 'number:', i
 
 print 'end'

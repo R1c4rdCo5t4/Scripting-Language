@@ -71,19 +71,72 @@ class TestRegex(unittest.TestCase):
         
 
     def test_reassign(self):
-        pass
+        
+        reassign_pattern = self.patterns['reassign']
+        expr_pattern = self.patterns['expr']
+
+        with self.subTest('x = 5'):
+            var_name = reassign_pattern.search('x = 5')
+            var_value = expr_pattern.search('x = 5')
+            self.assertEqual(var_name.group(1), 'x')
+            self.assertEqual(var_value.group(1), '5')
+
+        with self.subTest("variable = 'hello'"):
+            var_name = reassign_pattern.search("variable = 'hello'")
+            var_value = expr_pattern.search("variable = 'hello'")
+            self.assertEqual(var_name.group(1), 'variable')
+            self.assertEqual(var_value.group(1), "'hello'")
+
+        with self.subTest('x = 5 + 5'):
+            var_name = reassign_pattern.search('x = 5 + 5')
+            var_value = expr_pattern.search('x = 5 + 5')
+            self.assertEqual(var_name.group(1), 'x')
+            self.assertEqual(var_value.group(1), '5 + 5')
+
+       
 
     def test_fn_call(self):
-        pass
+        
+        fn_call_pattern = self.patterns['fn_call']
+
+        with self.subTest('print 5'):
+            fn = fn_call_pattern.search('print 5')
+            self.assertEqual(fn.group(1), 'print')
+            self.assertEqual(fn.group(2), '5')
+
+        with self.subTest("log 'hello', 5"):
+            fn = fn_call_pattern.search("log 'hello', 5")
+            self.assertEqual(fn.group(1), 'log')
+            self.assertEqual(fn.group(2), "'hello', 5")
+ 
 
     def test_fn_def(self):
-        pass
+        
+        fn_def_pattern = self.patterns['fn_def']
+        with self.subTest('fn my_fn[x, y]'):
+            fn = fn_def_pattern.search('fn my_fn[x, y]')
+            self.assertEqual(fn.group(1), 'my_fn')
+            self.assertEqual(fn.group(2), 'x, y')
+
 
     def test_for(self):
-        pass
+        
+        for_pattern = self.patterns['for']
+        with self.subTest('for i from 0 to 10'):
+            fn = for_pattern.search('for i from 0 to 10')
+            self.assertEqual(fn.group(1), 'i')
+            self.assertEqual(fn.group(2), '0')
+            self.assertEqual(fn.group(3), '10')
 
-    def test_expr(self):
-        pass
+        with self.subTest('for j from 0 to 10 step 2'):
+            fn = for_pattern.search('for j from 0 to 10 step 2')
+            self.assertEqual(fn.group(1), 'j')
+            self.assertEqual(fn.group(2), '0')
+            self.assertEqual(fn.group(3), '10')
+            self.assertEqual(fn.group(5), '2')
+
+
+
 
 
 

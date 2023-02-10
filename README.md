@@ -3,7 +3,7 @@ Custom scripting language using Python (in development)
 
 ### How to run the interpreter
 ```
-cd src && python main.py [-f <file>]
+cd src && python main.py <file>
 ```
 
 ### Features
@@ -41,20 +41,20 @@ fn my_function[str, n]
 
 const start = 0
 const end = start + 10
-let step
+let x
 
 set step_str = 'two'
-step = step_str == 'one' ? 1 : 2
+x = step_str == 'one' ? 1 : 2
 
-log step
+log x
 
-for i from start to end by step
+for i from start to end step x
     my_function 'number:', i
 ```
 
 ### Output
 ```
-step = 2 (int)
+x = 2 (int)
 number: 0
 number: 2
 number: 4
